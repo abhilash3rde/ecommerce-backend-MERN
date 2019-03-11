@@ -1,0 +1,141 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper" style="padding-left: 15px;padding-right: 15px">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">View Order</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    {{#each orders as |ordervalue orderkey|}}
+    <p>Order Id: {{ordervalue._id}}</p>
+    <hr>
+    <p>Ordered Product details:-</p>
+    {{#each orderproduct as |orderkey|}}
+    <hr>
+    
+    <p>Product Meta id: {{orderkey.productmetaid}}</p>
+    <p>Product Title: {{orderkey.proucttitle}}</p>
+    <p>Quantity: {{orderkey.quantity}}</p>
+    <p>Single Price: {{orderkey.singleprice}}</p>
+    <p>subtotal:{{orderkey.subtotal}}</p>
+    <p>orderdate:{{orderkey.orderdate}}</p>
+    <p>country:{{orderkey.country}}</p>
+    <p>isguest:{{orderkey.isguest}}</p>
+    <p>userid:{{orderkey.userId}}</p>
+    <hr>
+    {{/each}} 
+    <hr>
+    <p>selectedattribute: {{ordervalue.selectedattribute}}</p>
+    <p>grandtotal: {{ordervalue.grandtotal}}</p>
+    <p>coupondisc: {{ordervalue.coupondisc}}</p>  
+    <p>couponid: {{ordervalue.couponid:}}</p>
+    <p>country: {{ordervalue.country}}</p>
+    <p>offerprice: {{ordervalue.offerprice}}</p>
+    <p>shippingmethod: {{ordervalue.shippingmethod}}</p>
+    <p>wholesubtotal: {{ordervalue.wholesubtotal}}</p>
+    <p>shippingcharge: {{ordervalue.shippingcharge}}</p>
+    <p>paymentmethod: {{ordervalue.paymentmethod}}</p>
+    <p>ordernote: {{ordervalue.ordernote}}</p>
+    <p>userid: {{ordervalue.userid}}</p>
+    <p>status: {{ordervalue.status}}</p>
+    <p>paymentstatus: {{ordervalue.paymentstatus}}</p>
+    <p>transactionid: {{ordervalue.transactionid}}</p>
+    <p>country tax: {{ordervalue.country_tax:}}</p>
+    <p>taxamount: {{ordervalue.taxamount}}</p>
+    <hr>
+    <p>Userdetails:  </p>   
+    <hr>
+        <p>country:  {{ordervalue.userdetails.country}}</p>
+        <p>email:  {{ordervalue.userdetails.email}}</p>
+        <p>first Name:  {{ordervalue.userdetails.firstname}}</p>
+        <p>last Name: {{ordervalue.userdetails.lastname}}</p>
+        <p>Shipping Address: {{ordervalue.userdetails.shippingaddress}}</p>
+        <p>Billing Address: {{ordervalue.userdetails.billingaddress}}</p>
+        <p>Extra Address:{{ordervalue.userdetails.extraaddress}}</p>
+        <p>City: {{ordervalue.userdetails.city}}</p>
+        <p>State: {{ordervalue.userdetails.state}}</p>
+        <p>Zipcode: {{ordervalue.userdetails.zipcode}}</p>
+        <p>Phone Number: {{ordervalue.userdetails.phonenumber}}</p>
+        <hr>
+        <p>Order Status: {{ordervalue.orderstatus}}</p>
+        <p>Order Date: {{ordervalue.orderdate}}</p>
+        
+    {{!-- orderproduct: [ 
+    { productmetaid: '5c7f5d87f41b2900043024a4', 
+    proucttitle: 'Chocolate Bars', 
+    quantity: '3', 
+    singleprice: '300', 
+    subtotal: 900, 
+    orderdate: 'Fri Mar 08 2019 15:17:15 GMT+0530 (India Standard Time)', 
+    country: 'test', 
+    isguest: 'true', 
+    userid: 'null', 
+    selectedattribute: [Object] }, 
+    { productmetaid: '5c7f5c95f41b2900043024a2',
+     proucttitle: 'CBD Chewing Gum', 
+     quantity: '5', 
+     singleprice: 98, 
+     subtotal: 490, 
+     orderdate: 'Fri Mar 08 2019 15:17:15 GMT+0530 (India Standard Time)', 
+     country: 'test', 
+     isguest: 'true', 
+     userId: 'null' } ], 
+      1235, 
+     coupondisc: 454, 
+     couponid: '123', 
+     country: 'test', 
+     offerprice: 100, 
+     shippingmethod: 'Express shipping', 
+     wholesubtotal: 1390, 
+     shippingcharge: 10, 
+     paymentmethod: 'Paypal', 
+     ordernote: 'Make it quick', 
+     userid: '8486565658926546345415', 
+     status: 'in process', 
+     paymentstatus: 'Processing', 
+     transactionid: '848484845454765', 
+     country_tax: '18', 
+     taxamount: '7412', 
+     userdetails: { 
+         country: 'USA', 
+         email: 'fgeg445@gmail.com', 
+         firstname: 'name', 
+         lastname: 'last name', 
+         shippingaddress: 'name last name, asdf jhgblkj\n\t\t\tkjnkln ', 
+         billingaddress: 'name last name, asdf jhgblkj\n\t\t\tkjnkln ', 
+         extraaddress: 'jdjdjd', 
+         city: 'Alajuela', 
+         state: 'USA', 
+         zipcode: '11224', 
+         phonenumber: '34345875' }, 
+         orderstatus: 'Processing', 
+         orderdate: 2019-03-09T13:38:27.645Z, serial_id: 5, __v: 0 } --}}
+
+
+
+
+
+
+
+
+
+
+    <a href="/pages/orders/delete/{{ordervalue._id}}">Cancel Order</a>
+    <a href="/pages/orders/process/{{ordervalue._id}}">Process Order</a>
+
+    {{/each}}   
+    
+
+    
+
+
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+<script>
+  
+</script>
+{{> footer}}

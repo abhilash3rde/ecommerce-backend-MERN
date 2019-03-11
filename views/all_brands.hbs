@@ -1,0 +1,109 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Brands</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-5">
+                <div class="alert alert-success brandsuccess" style="display:none;"></div>
+                <div class="alert alert-danger branddanger" style="display:none;"></div>
+                <form method="POST" action="/brands/add" enctype="multipart/form-data" id="addbrandform" class="brandform">
+                    <div id="form-group">
+                        <label>Brand Serial Number:</label>
+                        <input class="form-control brandserialnumber" name="brandserialnumber" type="text" autocomplete="off">
+                        <span class="form_error">Please Enter Brand Serial Number</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Brand Name:</label>
+                        <input class="form-control brandtitle" name="brandtitle" type="text" autocomplete="off">
+                        <span class="form_error">Please Enter Brand Name</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Brand Description:</label>
+                        <textarea class="form-control branddescripiton" name="branddescription"></textarea>
+                        <span class="form_error">Please Enter Brand Description</span>
+                    </div>
+                    <div class="brand_image_div" style="display:none;"></div>
+                    <div id="form-group brandimagefield">
+                        <label>Brand Image:</label>
+                        <input class="" name="brandimage" type="file">
+                    </div>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+                <form method="POST" action="" enctype="multipart/form-data" class="brandform" id="edit_brand_form" style="display:none;">
+                    <div id="form-group">
+                        <input class="form-control editbrandserialnumber" name="brandserialnumber" type="hidden" value="" autocomplete="off">
+                        <span class="form_error">Please Enter Brand Serial Number</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Brand Name:</label>
+                        <input class="form-control editbrandname" name="brandtitle" type="text" value="" autocomplete="off">
+                        <span class="form_error">Please Enter Brand Name</span>
+                    </div>
+                    <div id="form-group">
+                        <label>Brand Description:</label>
+                        <textarea class="form-control editbranddescription" name="branddescription"></textarea>
+                        <span class="form_error">Please Enter Brand Description</span>
+                    </div>
+                    <div class="product_image_preview_section">
+                        <div class="col-md-2 product_image">
+                            <label>Product Image:</label>
+                            <img src="" class="edit_brand_img"/>
+                        </div>
+                    </div>
+                    <div id="form-group" class="product_image_upload">
+                        <input class="form-control" name="brandimage" type="file">
+                        <input type="hidden" name="previousfilename" value="" class="edit_filename"/>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form> 
+            </div>
+            <div class="col-lg-7">
+                <table class="product_detail_table table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Image</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>      
+                    </thead>  
+                    <tbody>
+                        {{#each brands}}
+                        <tr>
+                            <td>{{this.brandserialnumber}}</td>
+                            <td>{{this.brandtitle}}</td>
+                            <td>{{this.branddescription}}</td>
+                            <td><img src="{{this.filepath}}" height="50" width="50"/></td>
+                            <td><a href="javascript:void(0);" class="edit_brand_btn" data-id="{{this._id}}">Edit</a></td>
+                            <td><a href="javascript:void(0);" class="delete-brand" data-id="{{this._id}}">Delete</a></td>
+                        </tr>
+                        {{/each}}    
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Image</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </tfoot>
+                </table>        
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

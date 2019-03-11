@@ -1,0 +1,64 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Orders</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="product_detail_table table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Customer Email</th>
+                        <th>Customer Mobile Number</th>
+                        <th>Payment Status</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Date Created</th>
+                    </tr>      
+                </thead>  
+                <tbody>
+                    {{#each orders as |ordervalue orderkey|}}
+                    <tr>
+                        
+                        {{!-- <td>{{sum @index 1}}</td> --}}
+                        <td>{{ordervalue.serial_id}}</td>
+                            {{!-- {{#equal ordervalue.userid.role 'customer'}}
+                               {{ordervalue.userid.name}}
+                            {{else}}
+                                {{ordervalue.customername}}
+                            {{/equal}} --}}
+                        
+                         <td>
+                            <a href="/pages/orders/view/{{ordervalue._id}}">{{ordervalue.userdetails.email}}</a>
+                        </td>
+                        <td>
+                            {{!-- {{#equal ordervalue.userid.role 'broker'}}
+                                {{ordervalue.userid.name}}
+                            {{else}}
+                                {{this.brokername}}
+                            {{/equal}} --}}
+                            {{ordervalue.userdetails.phonenumber}}
+                        </td>
+                        <td>{{ordervalue.paymentstatus}}</td>
+                        {{!-- <td>{{dateformat this.ordermilisecond 'DD/MM/YYYY h:mm a'}}</td> --}}
+                        <td>{{ordervalue.grandtotal}}</td>
+                        <td>{{ordervalue.orderstatus}}</td>
+                        <td>{{ordervalue.orderdate}}</td>
+                    </tr>
+                    {{/each}}    
+                </tbody>
+                <tfoot>
+                  
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

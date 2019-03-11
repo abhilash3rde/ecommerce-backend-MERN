@@ -1,0 +1,74 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Rate Updation</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        {{#if errors}}
+            <div class="alert alert-danger">{{errors}}</div>
+        {{else}}
+            <form method="POST" action="/rateupdation/add" id="rateupdateform">
+                {{#each products as |loopvalue loopkey|}}
+                    {{#equal loopkey 0}}
+                        <input type="text" id="ratechangedate" name="ratechangedate" value="{{this.ratechangedate}}"/>
+                    {{/equal}}
+                    <div class="product_list">
+                        <div id="form-group" class="rate_updation_title clearfix">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                {{this.producttitle}}
+                            </div>
+                            <div class="col-md-8">
+                                 <input type="hidden" name="product_id[]" value="{{this._id}}" class=""/>
+                                    <input type="hidden" name="product_name[]" value="{{this.producttitle}}" class=""/>
+                                    <input type="number" name="product_price[]" value="{{loopvalue.regularprice}}" data-loopkey="{{loopkey}}" class="new_price" id="product_price-{{loopkey}}" oninput="brandPriceChangeFunction({{loopkey}})"/>
+                            </div>
+                        </div>
+                        
+                        </div>
+                        
+                        {{#each this.productbrand as |value key|}}
+                            <div class="product_brands_list clearfix">
+                                <div class="col-md-12">
+                                    {{#each ../brandprice as |brandpricevalue brandpricekey|}}
+                                        {{#equal value.productbrand brandpricekey}}
+                                            <div class="col-md-4">
+                                                {{brandpricekey}}
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="number" name="product_brand_variation[_{{loopvalue._id}}][{{value.productbrand}}]" value="{{brandpricevalue}}" class="brandprice brand-price-{{loopkey}}" id="brand-price-{{loopkey}}-{{@index}}" oninput="basePriceChangeFunction({{loopkey}}, {{@index}})"/>
+                                                
+                                                <div class="difference_div">
+                                                    <input type="number" name="product_diff_variation[_{{loopvalue._id}}][{{value.productbrand}}]" value="{{subtract brandpricevalue loopvalue.regularprice}}" class="branddiff brand-diff-{{loopkey}}" id="brand-diff-{{loopkey}}-{{@index}}" oninput="priceDiffChangeFunction({{loopkey}}, {{@index}})" />
+                                                </div>
+                                            </div>
+                                        {{/equal}}
+                                        {{else}}
+                                            <div class="col-md-4">
+                                                {{value.productbrand}}
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="number" name="product_brand_variation[_{{loopvalue._id}}][{{value.productbrand}}]" value="{{brandpricevalue}}" class="brandprice brand-price-{{loopkey}}" id="brand-price-{{loopkey}}-{{@index}}" oninput="basePriceChangeFunction({{loopkey}}, {{@index}})"/>
+                                                
+                                                <div class="difference_div">
+                                                    <input type="number" name="product_diff_variation[_{{loopvalue._id}}][{{value.productbrand}}]" value="{{subtract brandpricevalue loopvalue.regularprice}}" class="branddiff brand-diff-{{loopkey}}" id="brand-diff-{{loopkey}}-{{@index}}" oninput="priceDiffChangeFunction({{loopkey}}, {{@index}})" />
+                                                </div>
+                                            </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                {{/each}}
+                <input class="btn btn-success" type="submit" value="Submit">
+                {{!-- <input class="btn btn-success rateupdatebtn" type="button" value="Submit"> --}}
+            </form>
+        {{/if}}
+    </div><!-- /.row -->
+</div><!-- /#page-wrapper -->
+{{> footer}}

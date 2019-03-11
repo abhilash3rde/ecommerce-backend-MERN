@@ -1,0 +1,1044 @@
+{{> header}}
+{{> nav}}
+
+<style>
+    .image-holder {
+        height: 200px;
+    }
+
+
+    /*Body of the Panel when it expands*/
+    .panel .panel-body {
+        position: relative;
+        padding: 0 !important;
+        overflow: hidden;
+        height: auto;
+    }
+
+    /*Image size and transition*/
+    .panel .panel-body a img {
+        display: block;
+        margin: 0;
+        width: 100%;
+        height: 150px;
+        transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+        -o-transition: all 0.5s;
+    }
+
+    /*Transform scale effect when you hover over*/
+    .panel .panel-body a.zoom:hover img {
+        transform: scale(1.3);
+        -ms-transform: scale(1.3);
+        -webkit-transform: scale(1.3);
+        -o-transform: scale(1.3);
+        -moz-transform: scale(1.3);
+    }
+
+    /*Zoom Button*/
+    .panel .panel-body a.zoom span.overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        visibility: hidden;
+        height: 100%;
+        width: 100%;
+        background-color: #000;
+        opacity: 0;
+        transition: opacity .25s ease-out;
+        -moz-transition: opacity .25s ease-out;
+        -webkit-transition: opacity .25s ease-out;
+        -o-transition: opacity .25s ease-out;
+    }
+
+    /*Zoom Button and Tint Overlay*/
+    .panel .panel-body a.zoom:hover span.overlay {
+        display: block;
+        visibility: visible;
+        opacity: 0.55;
+        -moz-opacity: 0.55;
+        -webkit-opacity: 0.55;
+        filter: alpha(opacity=65);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=65)";
+    }
+
+    /*Zoom Button*/
+    .panel .panel-body a.zoom:hover span.overlay i {
+        position: absolute;
+        top: 45%;
+        left: 0%;
+        width: 100%;
+        font-size: 2.25em;
+        color: #fff !important;
+        text-align: center;
+        opacity: 1;
+        -moz-opacity: 1;
+        -webkit-opacity: 1;
+        filter: alpha(opacity=1);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+    }
+
+    #lightbox .modal-content {
+        display: inline-block;
+        text-align: center;
+    }
+</style>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Add Pages</h1>
+        </div>
+    </div>
+    {{!-- {{#each pagecontent as |value index|}}
+        {{value}}
+    {{/each}} --}}
+    <!--Size dropdown menu-->
+    {{!-- <select id="size_select">
+  <option value="option1">Home</option>
+  <option value="option2">Layout</option>
+  <option value="option3">XS</option>
+  <option value="option4">Small</option>
+  <option value="option5">Medium</option>
+  <option value="option6">Large</option>
+</select>
+ --}}
+
+    <div id="page-form-group">
+        <label>Page Layout:</label>
+        <select id="size_select" name="layout" class="page-layout">
+            {{#each layoutDropDown as |layoutvalue layoutkey|}}
+            <option value="{{layoutkey}}" {{#equal ../pagelayout layoutkey}}selected="selected" {{/equal}}>
+                {{layoutvalue}}</option>
+            {{/each}}
+        </select>
+        <span class="form_error">Please Enter Layout Name</span>
+    </div>
+
+
+
+
+    <!--Size dropdown content-->
+    {{!-- <div id="option1" class="size_chart">
+  Kids
+</div>
+<div id="option2" class="size_chart">
+  Youth
+</div>
+<div id="option3" class="size_chart">
+  XS
+</div>
+<div id="option4" class="size_chart">
+  Small
+</div>
+<div id="option5" class="size_chart">
+  Medium
+</div>
+<div id="option6" class="size_chart">
+  Large
+</div> --}}
+    <div id="home" class="size_chart" style="display: none;"  class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-success pagesuccess" style="display:none;"></div>
+            <div class="alert alert-danger pagedanger" style="display:none;"></div>
+            <div>
+                <form action="{{#equal action 'edit'}}/pages/edit/{{pageid}}{{else}}/pages/add{{/equal}}" method="POST"
+                    class="" enctype="multipart/form-data"
+                    id="{{#equal action 'edit'}}page-edit-form{{else}}page-add-form{{/equal}}">
+                    {{#equal action 'edit'}}
+                    <input type="hidden" name="editpageid" class="editpageid" value="{{pageid}}">
+                    {{/equal}}
+{{!-- 
+                    <div id="page-form-group">
+                        <label>Page Layout:</label>
+                        <select name="layout" class="page-layout">
+                            {{#each layoutDropDown as |layoutvalue layoutkey|}}
+                            <option value="{{layoutkey}}" {{#equal ../pagelayout layoutkey}}selected="selected"
+                                {{/equal}}>{{layoutvalue}}</option>
+                            {{/each}}
+                        </select>
+                        <span class="form_error">Please Enter Layout Name</span> --}}
+                    </div>
+                    <div id="page-form-group">
+                        <label>Page Name:</label>
+                        <input class="pagetitle" name="title" type="text" autocomplete="off" value="{{title}}">
+                        <span class="form_error">Please Enter Page Name</span>
+                    </div>
+                    <div class="home-fields extra-fields">
+                        {{!------------------------------------------------ Home Page First Section ----------------------------------------------------}}
+                        <div id="page-form-group">
+                            <label>First Section Visibility:</label>
+                            <input type="radio" class="first-visibility-yes" name="firstvisibility" value="yes"
+                                checked="checked"> Yes
+                            <input type="radio" class="first-visibility-no" name="firstvisibility" value="no"
+                                {{#equal pagecontent.firstsection.visibility 'no'}}checked="checked" {{/equal}}> No
+                        </div>
+                        <div id="page-form-group">
+                            <label>First Section Title:</label>
+                            <input type="text" class="first-section-title" name="firsttitle"
+                                value="{{pagecontent.firstsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>First Section Description:</label>
+                            <textarea class="first-section-description"
+                                name="firstdescription">{{pagecontent.firstsection.description}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>First Section Button Text:</label>
+                            <input type="text" class="first-section-buttontext" name="firstbtntext"
+                                value="{{pagecontent.firstsection.btntext}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>First Section Button Link:</label>
+                            <input type="text" class="first-section-btnlink" name="firstbtnlink"
+                                value="{{pagecontent.firstsection.btnlink}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <div class="image-label-section">
+                                <label>First Section Image:</label>
+                            </div>
+                            <div class="image-field-section">
+                                {{#if pagecontent.firstsection.imagelink}}
+                                <input type="hidden" class="first-img-link" name="firstimagelink"
+                                    value="{{pagecontent.firstsection.imagelink}}" autocomplete="off">
+                                <img src="{{pagecontent.firstsection.imagelink}}" />
+                                {{/if}}
+                                <input type="file" class="first-section-image" name="firstimage"
+                                    value="{{pagecontent.firstsection.imagelink}}" autocomplete="off">
+                            </div>
+                        </div>
+                        {{!----------------------------------------------- Home Page Second Section ---------------------------------------------------}}
+                        <div id="page-form-group">
+                            <label>Second Section Visibility:</label>
+                            <input type="radio" class="second-visibility-yes" name="secondvisibility" value="yes"
+                                checked="checked">Yes
+                            <input type="radio" class="second-visibility-no" name="secondvisibility" value="no"
+                                {{#equal pagecontent.secondsection.visibility 'no'}}checked="checked" {{/equal}}>No
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Title:</label>
+                            <input type="text" class="second-section-title" name="secondtitle"
+                                value="{{pagecontent.secondsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Description:</label>
+                            <textarea class="second-section-description"
+                                name="seconddescription">{{pagecontent.secondsection.description}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Link Text:</label>
+                            <input type="text" class="second-section-linktext" name="secondlinktext"
+                                value="{{pagecontent.secondsection.linktext}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Button Link:</label>
+                            <input type="text" class="second-section-link" name="secondlink"
+                                value="{{pagecontent.secondsection.btnlink}}" autocomplete="off">
+                        </div>
+                        {{!----------------------------------------------- Home Page Third Section ---------------------------------------------------}}
+                        <div id="page-form-group">
+                            <label>Third Section Visibility:</label>
+                            <input type="radio" class="third-visibility-yes" name="thirdvisibility" value="yes"
+                                checked="checked">Yes
+                            <input type="radio" class="third-visibility-no" name="thirdvisibility" value="no"
+                                {{#equal pagecontent.thirdsection.visibility 'no'}}checked="checked" {{/equal}}>No
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Small Title:</label>
+                            <input type="text" class="third-section-stitle" name="thirdstitle"
+                                value="{{pagecontent.thirdsection.stitle}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Title:</label>
+                            <input type="text" class="third-section-title" name="thirdtitle"
+                                value="{{pagecontent.thirdsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Description:</label>
+                            <textarea class="third-section-description"
+                                name="thirddescription">{{pagecontent.thirdsection.description}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Button Text:</label>
+                            <input type="text" class="third-section-buttontext" name="thirdbtntext"
+                                value="{{pagecontent.thirdsection.btntext}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Button Link:</label>
+                            <input type="text" class="third-section-btnlink" name="thirdbtnlink"
+                                value="{{pagecontent.thirdsection.btnlink}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <div class="image-label-section">
+                                <label>Third Section Image:</label>
+                            </div>
+                            <div class="image-field-section">
+                                {{#if pagecontent.thirdsection.imagelink}}
+                                <input type="hidden" class="third-img-link" name="thirdimagelink"
+                                    value="{{pagecontent.thirdsection.imagelink}}" autocomplete="off">
+                                <img src="{{pagecontent.thirdsection.imagelink}}" />
+                                {{/if}}
+                                <input type="file" class="third-section-image" name="thirdimage"
+                                    value="{{pagecontent.thirdsection.imagelink}}" autocomplete="off">
+                            </div>
+                        </div>
+                        {{!----------------------------------------------- Home Page Fourth Section ---------------------------------------------------}}
+                        <div id="page-form-group">
+                            <label>Fourth Section Visibility:</label>
+                            <input type="radio" class="fourth-visibility-yes" name="fourthvisibility" value="yes"
+                                checked="checked">Yes
+                            <input type="radio" class="fourth-visibility-no" name="fourthvisibility" value="no"
+                                {{#equal pagecontent.fourthsection.visibility 'no'}}checked="checked" {{/equal}}>No
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fourth Section Small Title:</label>
+                            <input type="text" class="fourth-section-stitle" name="fourthstitle"
+                                value="{{pagecontent.fourthsection.stitle}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fourth Section Title:</label>
+                            <input type="text" class="fourth-section-title" name="fourthtitle"
+                                value="{{pagecontent.fourthsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fourth Section Description:</label>
+                            <textarea class="fourth-section-description"
+                                name="fourthdescription">{{pagecontent.fourthsection.description}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fourth Section Button Text:</label>
+                            <input type="text" class="fourth-section-buttontext" name="fourthbtntext"
+                                value="{{pagecontent.fourthsection.btntext}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fourth Section Button Link:</label>
+                            <input type="text" class="fourth-section-btnlink" name="fourthbtnlink"
+                                value="{{pagecontent.fourthsection.btnlink}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <div class="image-label-section">
+                                <label>Fourth Section Image:</label>
+                            </div>
+                            <div class="image-field-section">
+                                {{#if pagecontent.fourthsection.imagelink}}
+                                <input type="hidden" class="fourth-img-link" name="fourthimagelink"
+                                    value="{{pagecontent.fourthsection.imagelink}}" autocomplete="off">
+                                <img src="{{pagecontent.fourthsection.imagelink}}" />
+                                {{/if}}
+                                <input type="file" class="fourth-section-image" name="fourthimage"
+                                    value="{{pagecontent.fourthsection.imagelink}}" autocomplete="off">
+                            </div>
+                        </div>
+                        {{!----------------------------------------------- Home Page Fifth Section ---------------------------------------------------}}
+                        <div id="page-form-group">
+                            <label>Fifth Section Visibility:</label>
+                            <input type="radio" class="fifth-visibility-yes" name="fifthvisibility" value="yes"
+                                checked="checked">Yes
+                            <input type="radio" class="fifth-visibility-no" name="fifthvisibility" value="no"
+                                {{#equal pagecontent.fifthsection.visibility 'no'}}checked="checked" {{/equal}}>No
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fifth Section Small Title:</label>
+                            <input type="text" class="fifth-section-stitle" name="fifthstitle"
+                                value="{{pagecontent.fifthsection.stitle}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fifth Section Title:</label>
+                            <input type="text" class="fifth-section-title" name="fifthtitle"
+                                value="{{pagecontent.fifthsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fifth Section Description:</label>
+                            <textarea class="fifth-section-description"
+                                name="fifthdescription">{{pagecontent.fifthsection.description}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fifth Section Button Text:</label>
+                            <input type="text" class="fifth-section-buttontext" name="fifthbtntext"
+                                value="{{pagecontent.fifthsection.btntext}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fifth Section Button Link:</label>
+                            <input type="text" class="fifth-section-btnlink" name="fifthbtnlink"
+                                value="{{pagecontent.fifthsection.btnlink}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <div class="image-label-section">
+                                <label>Fifth Section Image:</label>
+                            </div>
+                            <div class="image-field-section">
+                                {{#if pagecontent.fifthsection.imagelink}}
+                                <input type="hidden" class="fifth-img-link" name="fifthimagelink"
+                                    value="{{pagecontent.fifthsection.imagelink}}" autocomplete="off">
+                                <img src="{{pagecontent.fifthsection.imagelink}}" />
+                                {{/if}}
+                                <input type="file" class="fifth-section-image" name="fifthimage"
+                                    value="{{pagecontent.fifthsection.imagelink}}" autocomplete="off">
+                            </div>
+                        </div>
+                        {{!----------------------------------------------- Home Page Sixth Section ---------------------------------------------------}}
+                        <div id="page-form-group">
+                            <label>Sixth Section Visibility:</label>
+                            <input type="radio" class="sixth-visibility-yes" name="sixthsectionvisibility" value="yes"
+                                checked="checked">Yes
+                            <input type="radio" class="sixth-visibility-no" name="sixthsectionvisibility" value="no"
+                                {{#equal pagecontent.sixthsection.visibility 'no'}}checked="checked" {{/equal}}>No
+                        </div>
+                        <div id="page-form-group">
+                            <label>Sixth Section Title:</label>
+                            <input type="text" class="sixth-section-title" name="sixthtitle"
+                                value="{{pagecontent.sixthsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Sixth Section Description:</label>
+                            <textarea class="sixth-section-description"
+                                name="sixthdescription">{{pagecontent.sixthsection.description}}</textarea>
+                        </div>
+                    </div>
+                    <div class="contact-fields extra-fields"></div>
+                    <div class="shipping-returns-fields extra-fields"></div>
+                    <div class="faq-fields extra-fields"></div>
+                    <div class="about-fields extra-fields"></div>
+                    <div id="page-form-group">
+                        <label>Country:</label>
+                        <select name="country" id="" class="page-country">
+                            {{#each countries as |countriesValue countrieskey|}}
+                            <option value="{{countriesValue}}" {{#equal ../country countriesValue}}selected="selected"
+                                {{/equal}}>{{countriesValue}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{!-- ///////////////////////////////////////////////////////////////////////////// --}}
+    {{!-- Code for layout 1 starts from here --}}
+    {{!-- ////////////////////////////////////////////////////////////////////////////--}}
+
+
+
+
+
+
+
+    <div id="layout1" class="size_chart" style="display: none;" class="row">
+        {{!-- IMAGE PREVIEW SECTION --}}
+
+        <div class="container mt100">
+            <section class="row">
+                <div class="col-lg-3 col-sm-4 col-xs-6 image-holder">
+                    <div class="panel panel-default">
+                        <p>First Section Preview</p>
+                        <div class="panel-body">
+                            <a href="#" class="zoom" data-toggle="modal" data-target="#lightbox">
+                                <img src="https://raw.githubusercontent.com/yuliya5/image-modal-responsive/master/images/mountains1.jpg"
+                                    alt="...">
+                                <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-4 col-xs-6 image-holder">
+                    <div class="panel panel-default">
+                        <p>Second Section Preview</p>
+                        <div class="panel-body">
+                            <a href="#" class="zoom" data-toggle="modal" data-target="#lightbox">
+                                <img src="https://raw.githubusercontent.com/yuliya5/image-modal-responsive/master/images/mountains2.jpg"
+                                    alt="...">
+                                <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-4 col-xs-6 image-holder">
+                    <div class="panel panel-default">
+                        <p>Third Section Preview</p>
+                        <div class="panel-body">
+                            <a href="#" class="zoom" data-toggle="modal" data-target="#lightbox">
+                                <img src="https://raw.githubusercontent.com/yuliya5/image-modal-responsive/master/images/mountains3.jpg"
+                                    alt="...">
+                                <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-4 col-xs-6 image-holder">
+                    <div class="panel panel-default">
+                        <p>Fourth Section Preview</p>
+                        <div class="panel-body">
+                            <a href="#" class="zoom" data-toggle="modal" data-target="#lightbox">
+                                <img src="https://raw.githubusercontent.com/yuliya5/image-modal-responsive/master/images/mountains4.jpg"
+                                    alt="...">
+                                <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-4 col-xs-6 image-holder">
+                    <div class="panel panel-default">
+                        <p>Fifth Section Preview</p>
+                        <div class="panel-body">
+                            <a href="#" class="zoom" data-toggle="modal" data-target="#lightbox">
+                                <img src="https://raw.githubusercontent.com/yuliya5/image-modal-responsive/master/images/mountains7.jpg"
+                                    alt="...">
+                                <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div id="lightbox" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Layout section preview</h4>
+                            </div>
+                            <div class="modal-body">
+                                <img src="" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section> <!-- closing section -->
+        </div> <!-- closing div container -->
+
+        {{!-- IMAGE PREVIEW SECTION ENDS --}}
+        <div class="col-lg-12">
+            <div class="alert alert-success pagesuccess" style="display:none;"></div>
+            <div class="alert alert-danger pagedanger" style="display:none;"></div>
+            <div>
+                <form action="{{#equal action 'edit'}}/pages/edit/{{pageid}}{{else}}/pages/add{{/equal}}" method="POST"
+                    class="" enctype="multipart/form-data"
+                    id="{{#equal action 'edit'}}page-edit-form{{else}}page-add-form{{/equal}}">
+                    {{#equal action 'edit'}}
+                    <input type="hidden" name="editpageid" class="editpageid" value="{{pageid}}">
+                    {{/equal}}
+
+
+                    <div id="page-form-group">
+                        <label>Page Name:</label>
+                        <input class="pagetitle" name="titlelayout1" type="text" autocomplete="off" value="{{title}}">
+                        <span class="form_error">Please Enter Page Name</span>
+                    </div>
+
+                    <div class="home-fields extra-fields">
+                        {{!------------------------------------------------ Home Page First Section ----------------------------------------------------}}
+                        {{!-- <div id="page-form-group">
+                                                <label>First Section Visibility:</label>
+                                                <input type="radio" class="first-visibility-yes" name="firstvisibility" value="yes" checked="checked"> Yes 
+                                                <input type="radio" class="first-visibility-no" name="firstvisibility" value="no" {{#equal pagecontent.firstsection.visibility 'no'}}checked="checked"{{/equal}}> No
+                                            </div> --}}
+                        <div id="page-form-group">
+                            <label>First Section Title:</label>
+                            <input type="text" class="first-section-title" name="firsttitle"
+                                value="{{pagecontent.firstsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>First Section Author:</label>
+                            <input type="text" class="first-section-author" name="firstauthor"
+                                value="{{pagecontent.firstsection.author}}" autocomplete="off">
+                        </div>
+                        {{!-- <div id="page-form-group">
+                                            <label>First Section Facebook Link:</label>
+                                                <input type="text" class="first-section-fb" name="firstfb" value="{{pagecontent.firstsection.fb}}" autocomplete="off">
+                                            </div>
+                                            <div id="page-form-group">
+                                            <label>First Section Twitter Link :</label>
+                                                <input type="text" class="first-section-twitter" name="firsttwitter" value="{{pagecontent.firstsection.twitter}}" autocomplete="off">
+                                            </div>
+                                            <div id="page-form-group">
+                                            <label>First Section Gmail Link:</label>
+                                                <input type="text" class="first-section-gmail" name="firstgmail" value="{{pagecontent.firstsection.gmail}}" autocomplete="off">
+                                            </div> --}}
+                        <div id="page-form-group">
+                            <label>First Section Date:</label>
+                            <input type="text" class="first-section-date" name="firstdate"
+                                value="{{pagecontent.firstsection.date}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>First Section Description:</label>
+                            <textarea class="first-section-description"
+                                name="firstdescription">{{pagecontent.firstsection.description}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <div class="image-label-section">
+                                <label>First Section Image:</label>
+                            </div>
+                            <div class="image-field-section">
+                                {{#if pagecontent.firstsection.imagelink}}
+                                <input type="hidden" class="first-img-link" name="firstimagelink"
+                                    value="{{pagecontent.firstsection.imagelink}}" autocomplete="off">
+                                <img src="{{pagecontent.firstsection.imagelink}}" />
+                                {{/if}}
+                                <input type="file" class="first-section-image" name="firstimage"
+                                    value="{{pagecontent.firstsection.imagelink}}" autocomplete="off">
+                            </div>
+                        </div>
+                        <div id="page-form-group">
+                            <label>First Section Order:</label>
+                            <input type="text" class="first-section-order" name="firstorder"
+                                value="{{pagecontent.firstsection.order}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+                        {{!----------------------------------------------- Home Page Second Section ---------------------------------------------------}}
+                        <div class="wrapper1">
+                            <div class="element1">
+                                {{!-- <div id="page-form-group">
+                                    <label>Second Section Visibility:</label>
+                                    <input type="radio" class="second-visibility-yes" name="secondvisibility" value="yes" checked="checked">Yes
+                                    <input type="radio" class="second-visibility-no" name="secondvisibility" value="no" {{#equal pagecontent.secondsection.visibility 'no'}}checked="checked"{{/equal}}>No
+                                </div> --}}
+                                <div id="page-form-group">
+                                    <label>Second Section Title:</label>
+                                    <input type="text" class="second-section-title" name="secondtitle"
+                                        value="{{pagecontent.secondsection.title}}" autocomplete="off">
+                                </div>
+                                <div id="page-form-group">
+                                    <label>Second Section Description:</label>
+                                    <textarea class="second-section-description"
+                                        name="seconddescription">{{pagecontent.secondsection.description}}</textarea>
+                                </div>
+                            </div>
+                            <div class="results1"></div>
+                            <div class="buttons">
+                                <button type="button" class="clone1">clone</button>
+                                <button type="button" class="remove1">remove</button>
+                            </div>
+
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Order:</label>
+                            <input type="text" class="second-section-order" name="secondorder"
+                                value="{{pagecontent.secondsection.order}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+                        <div id="page-form-group">
+                            <label>Second Section Title 1:</label>
+                            <input type="text" class="second-section-title1" name="secondtitle1"
+                                value="{{pagecontent.secondsection.title1}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Description 1:</label>
+                            <textarea class="second-section-description1"
+                                name="seconddescription1">{{pagecontent.secondsection.description1}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section 1 Order:</label>
+                            <input type="text" class="second-section-order1" name="secondorder1"
+                                value="{{pagecontent.secondsection.order1}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+                        <div id="page-form-group">
+                            <label>Second Section Title 2:</label>
+                            <input type="text" class="second-section-title2" name="secondtitle2"
+                                value="{{pagecontent.secondsection.title2}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Description:</label>
+                            <textarea class="second-section-description2"
+                                name="seconddescription2">{{pagecontent.secondsection.description2}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section 2 Order:</label>
+                            <input type="text" class="second-section-order2" name="secondorder2"
+                                value="{{pagecontent.secondsection.order2}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+                        <div id="page-form-group">
+                            <label>Second Section Title 3:</label>
+                            <input type="text" class="second-section-title3" name="secondtitle3"
+                                value="{{pagecontent.secondsection.title3}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Description:</label>
+                            <textarea class="second-section-description4"
+                                name="seconddescription4">{{pagecontent.secondsection.description4}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section 3 Order:</label>
+                            <input type="text" class="second-section-order3" name="secondorder3"
+                                value="{{pagecontent.secondsection.order3}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+                        <div id="page-form-group">
+                            <label>Second Section Title 4:</label>
+                            <input type="text" class="second-section-title4" name="secondtitle4"
+                                value="{{pagecontent.secondsection.title4}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section Description 4:</label>
+                            <textarea class="second-section-description4"
+                                name="seconddescription4">{{pagecontent.secondsection.description4}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Second Section 4 Order:</label>
+                            <input type="text" class="second-section-order4" name="secondorder4"
+                                value="{{pagecontent.secondsection.order4}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+                        {{!----------------------------------------------- Home Page Third Section ---------------------------------------------------}}
+                        {{!-- <div id="page-form-group">
+        <label>Third Section Visibility:</label>
+        <input type="radio" class="third-visibility-yes" name="thirdvisibility" value="yes" checked="checked">Yes
+        <input type="radio" class="third-visibility-no" name="thirdvisibility" value="no" {{#equal pagecontent.thirdsection.visibility 'no'}}checked="checked"{{/equal}}>No
+    </div> --}}
+                        <div class="wrapper">
+                            <div class="element">
+                                <div id="page-form-group">
+                                    <label>Third Section Title:</label>
+                                    <input type="text" class="third-section-title" name="thirdtitle"
+                                        value="{{pagecontent.thirdsection.title}}" autocomplete="off">
+                                </div>
+                                <div id="page-form-group">
+                                    <label>Third Section Description:</label>
+                                    <textarea class="third-section-description"
+                                        name="thirddescription">{{pagecontent.thirdsection.description}}</textarea>
+                                </div>
+                                <div id="page-form-group">
+                                    <label>Third Section Button Text:</label>
+                                    <input type="text" class="third-section-buttontext" name="thirdbtntext"
+                                        value="{{pagecontent.thirdsection.btntext}}" autocomplete="off">
+                                </div>
+                                <div id="page-form-group">
+                                    <label>Third Section Button Link:</label>
+                                    <input type="text" class="third-section-btnlink" name="thirdbtnlink"
+                                        value="{{pagecontent.thirdsection.btnlink}}" autocomplete="off">
+                                </div>
+                                <div id="page-form-group">
+                                    <div class="image-label-section">
+                                        <label>Third Section Image:</label>
+                                    </div>
+                                    <div class="image-field-section">
+                                        {{#if pagecontent.thirdsection.imagelink}}
+                                        <input type="hidden" class="third-img-link" name="thirdimagelink"
+                                            value="{{pagecontent.thirdsection.imagelink}}" autocomplete="off">
+                                        <img src="{{pagecontent.thirdsection.imagelink}}" />
+                                        {{/if}}
+                                        <input type="file" class="third-section-image" name="thirdimage"
+                                            value="{{pagecontent.thirdsection.imagelink}}" autocomplete="off">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="results"></div>
+                            <div class="buttons">
+                                <button type="button" class="clone">clone</button>
+                                <button type="button" class="remove">remove</button>
+                            </div>
+                            <div id="page-form-group">
+                                <label>Third Section Order:</label>
+                                <input type="text" class="third-section-order" name="thirdorder"
+                                    value="{{pagecontent.thirdsection.order}}" autocomplete="off">
+                            </div>
+                            <hr>
+                            <hr>
+
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Title 1:</label>
+                            <input type="text" class="third-section-title" name="thirdtitle1"
+                                value="{{pagecontent.thirdsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Description 1:</label>
+                            <textarea class="third-section-description"
+                                name="thirddescription1">{{pagecontent.thirdsection.description}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Button Text 1:</label>
+                            <input type="text" class="third-section-buttontext" name="thirdbtntext1"
+                                value="{{pagecontent.thirdsection.btntext}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Button Link 1:</label>
+                            <input type="text" class="third-section-btnlink" name="thirdbtnlink1"
+                                value="{{pagecontent.thirdsection.btnlink}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <div class="image-label-section">
+                                <label>Third Section Image 1:</label>
+                            </div>
+                            <div class="image-field-section">
+                                {{#if pagecontent.thirdsection.imagelink}}
+                                <input type="hidden" class="third-img-link" name="thirdimagelink1"
+                                    value="{{pagecontent.thirdsection.imagelink}}" autocomplete="off">
+                                <img src="{{pagecontent.thirdsection.imagelink}}" />
+                                {{/if}}
+                                <input type="file" class="third-section-image" name="thirdimage1"
+                                    value="{{pagecontent.thirdsection.imagelink}}" autocomplete="off">
+                            </div>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Order 1:</label>
+                            <input type="text" class="third-section-order1" name="thirdorder1"
+                                value="{{pagecontent.thirdsection.order1}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+                        <div id="page-form-group">
+                            <label>Third Section Title 2:</label>
+                            <input type="text" class="third-section-title" name="thirdtitle2"
+                                value="{{pagecontent.thirdsection.title}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Description 2:</label>
+                            <textarea class="third-section-description"
+                                name="thirddescription2">{{pagecontent.thirdsection.description}}</textarea>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Button Text 2:</label>
+                            <input type="text" class="third-section-buttontext" name="thirdbtntext2"
+                                value="{{pagecontent.thirdsection.btntext}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Button Link 2:</label>
+                            <input type="text" class="third-section-btnlink" name="thirdbtnlink2"
+                                value="{{pagecontent.thirdsection.btnlink}}" autocomplete="off">
+                        </div>
+                        <div id="page-form-group">
+                            <div class="image-label-section">
+                                <label>Third Section Image 2:</label>
+                            </div>
+                            <div class="image-field-section">
+                                {{#if pagecontent.thirdsection.imagelink}}
+                                <input type="hidden" class="third-img-link" name="thirdimagelink2"
+                                    value="{{pagecontent.thirdsection.imagelink}}" autocomplete="off">
+                                <img src="{{pagecontent.thirdsection.imagelink}}" />
+                                {{/if}}
+                                <input type="file" class="third-section-image" name="thirdimage2"
+                                    value="{{pagecontent.thirdsection.imagelink}}" autocomplete="off">
+                            </div>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Third Section Order 2:</label>
+                            <input type="text" class="third-section-order2" name="thirdorder2"
+                                value="{{pagecontent.thirdsection.order2}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+                        {{!----------------------------------------------- Home Page Fourth Section ---------------------------------------------------}}
+                        <div id="page-form-group">
+                            <label>Fourth Section Visibility:</label>
+                            <input type="radio" class="fourth-visibility-yes" name="fourthvisibility" value="yes"
+                                checked="checked">Yes
+                            <input type="radio" class="fourth-visibility-no" name="fourthvisibility" value="no"
+                                {{#equal pagecontent.fourthsection.visibility 'no'}}checked="checked" {{/equal}}>No
+                        </div>
+                        <div class="wrapper2">
+                            <div class="element2">
+                                <div id="page-form-group">
+                                    <label>Fourth Section Title:</label>
+                                    <input type="text" class="fourth-section-title" name="fourthtitle"
+                                        value="{{pagecontent.fourthsection.title}}" autocomplete="off">
+                                </div>
+                                <div id="page-form-group">
+                                    <label>Fourth Section Author:</label>
+                                    <input type="text" class="fourth-section-author" name="fourthauthor"
+                                        value="{{pagecontent.fourthsection.author}}" autocomplete="off">
+                                </div>
+                                <div id="page-form-group">
+                                    <label>Fourth Section Description:</label>
+                                    <textarea class="fourth-section-description"
+                                        name="fourthdescription">{{pagecontent.fourthsection.description}}</textarea>
+                                </div>
+                                <div id="page-form-group">
+                                    <div class="image-label-section">
+                                        <label>Fourth Section Image:</label>
+                                    </div>
+                                    <div class="image-field-section">
+                                        {{#if pagecontent.fourthsection.imagelink}}
+                                        <input type="hidden" class="fourth-img-link" name="fourthimagelink"
+                                            value="{{pagecontent.fourthsection.imagelink}}" autocomplete="off">
+                                        <img src="{{pagecontent.fourthsection.imagelink}}" />
+                                        {{/if}}
+                                        <input type="file" class="fourth-section-image" name="fourthimage"
+                                            value="{{pagecontent.fourthsection.imagelink}}" autocomplete="off">
+                                    </div>
+                                    <div id="page-form-group">
+                                        <label>Fourth Section Twitter:</label>
+                                        <input type="text" class="fourth-section-twitter" name="fourthtwitter"
+                                            value="{{pagecontent.fourthsection.twitter}}" autocomplete="off">
+                                    </div>
+                                    <div id="page-form-group">
+                                        <label>Fourth Section Insta:</label>
+                                        <input type="text" class="fourth-section-insta" name="fourthinsta"
+                                            value="{{pagecontent.fourthsection.insta}}" autocomplete="off">
+                                    </div>
+                                    <div id="page-form-group">
+                                        <label>Fourth Section Facebook:</label>
+                                        <input type="text" class="fourth-section-facebook" name="fourthfb"
+                                            value="{{pagecontent.fourthsection.facebook}}" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="results2"></div>
+
+                            <div class="buttons">
+                                <button type="button" class="clone2">clone</button>
+                                <button type="button" class="remove2">remove</button>
+                            </div>
+                        </div>
+                        <div id="page-form-group">
+                            <label>Fourth Section Order:</label>
+                            <input type="text" class="fourth-section-order" name="fourthorder"
+                                value="{{pagecontent.fourthsection.order}}" autocomplete="off">
+                        </div>
+                        <hr>
+                        <hr>
+
+                        {{!----------------------------------------------- Home Page Fifth Section ---------------------------------------------------}}
+                        {{!-- <div id="page-form-group">
+        <label>Fifth Section Visibility:</label>
+        <input type="radio" class="fifth-visibility-yes" name="fifthvisibility" value="yes" checked="checked">Yes
+        <input type="radio" class="fifth-visibility-no" name="fifthvisibility" value="no" {{#equal pagecontent.fifthsection.visibility 'no'}}checked="checked"{{/equal}}>No
+    </div>
+    <div id="page-form-group">
+        <label>Fifth Section Small Title:</label>
+        <input type="text" class="fifth-section-stitle" name="fifthstitle" value="{{pagecontent.fifthsection.stitle}}" autocomplete="off">
+    </div>
+    <div id="page-form-group">
+        <label>Fifth Section Title:</label>
+        <input type="text" class="fifth-section-title" name="fifthtitle" value="{{pagecontent.fifthsection.title}}" autocomplete="off">
+    </div>
+    <div id="page-form-group">
+        <label>Fifth Section Description:</label>
+        <textarea class="fifth-section-description" name="fifthdescription">{{pagecontent.fifthsection.description}}</textarea>
+    </div>
+    <div id="page-form-group">
+        <label>Fifth Section Button Text:</label>
+        <input type="text" class="fifth-section-buttontext" name="fifthbtntext" value="{{pagecontent.fifthsection.btntext}}" autocomplete="off">
+    </div>
+    <div id="page-form-group">
+        <label>Fifth Section Button Link:</label>
+        <input type="text" class="fifth-section-btnlink" name="fifthbtnlink" value="{{pagecontent.fifthsection.btnlink}}" autocomplete="off">
+    </div>
+    <div id="page-form-group">
+        <div class="image-label-section">
+            <label>Fifth Section Image:</label>
+        </div>
+        <div class="image-field-section">
+            {{#if pagecontent.fifthsection.imagelink}}
+                <input type="hidden" class="fifth-img-link" name="fifthimagelink" value="{{pagecontent.fifthsection.imagelink}}" autocomplete="off">
+                <img src="{{pagecontent.fifthsection.imagelink}}"/>
+            {{/if}}
+            <input type="file" class="fifth-section-image" name="fifthimage" value="{{pagecontent.fifthsection.imagelink}}" autocomplete="off">
+        </div>
+    </div> --}}
+                        <hr size="30">
+                        {{!----------------------------------------------- Home Page Sixth Section ---------------------------------------------------}}
+
+                    </div>
+                    <div id="page-form-group">
+                        <label>Country:</label>
+                        <select name="country" id="" class="page-country">
+                            {{#each countries as |countriesValue countrieskey|}}
+                            <option value="{{countriesValue}}" {{#equal ../country countriesValue}}selected="selected"
+                                {{/equal}}>{{countriesValue}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        $('.wrapper1').on('click', '.remove1', function () {
+            $('.remove1').closest('.wrapper1').find('.element1').not(':first').last().remove();
+        });
+        $('.wrapper1').on('click', '.clone1', function () {
+            $('.clone1').closest('.wrapper1').find('.element1').first().clone().appendTo('.results1');
+        });
+    </script>
+
+    <script>
+        $('.wrapper').on('click', '.remove', function () {
+            $('.remove').closest('.wrapper').find('.elementone').not(':first').last().remove();
+        });
+        $('.wrapper').on('click', '.clone', function () {
+            $('.clone').closest('.wrapper').find('.element').first().clone().appendTo('.results');
+        });
+
+    </script>
+
+    <script>
+        $('.wrapper2').on('click', '.remove2', function () {
+            $('.remove2').closest('.wrapper2').find('.element2').not(':first').last().remove();
+        });
+        $('.wrapper2').on('click', '.clone2', function () {
+            $('.clone2').closest('.wrapper2').find('.element2').first().clone().appendTo('.results2');
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            //hides dropdown content
+            $(".size_chart").hide();
+
+            //unhides first option content
+            $("#option1").show();
+
+            //listen to dropdown for change
+            setTimeout(()=>{
+                $("#"+$("#size_select").children()[0].value).show();
+            }, 200)
+            $("#size_select").change(function () {
+                //rehide content on change
+                $('.size_chart').hide();
+                //unhides current item
+                $('#' + $(this).val()).show();
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var $lightbox = $('#lightbox');
+            $('[data-target="#lightbox"]').on('click', function (event) {
+                var $img = $(this).find('img'),
+                    src = $img.attr('src'),
+                    alt = $img.attr('alt'),
+                    css = {
+                        'maxWidth': $(window).width() - 100,
+                        'maxHeight': $(window).height() - 100
+                    };
+                $lightbox.find('img').attr('src', src);
+                $lightbox.find('img').attr('alt', alt);
+                $lightbox.find('img').css(css);
+            });
+            $lightbox.on('shown.bs.modal', function (e) {
+                var $img = $lightbox.find('img');
+                $lightbox.find('.modal-dialog').css({ 'width': $img.width() });
+                $lightbox.find('.close').removeClass('hidden');
+            });
+        });
+    </script>
+
+    {{> footer}}

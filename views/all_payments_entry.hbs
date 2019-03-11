@@ -1,0 +1,58 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Payments Entries</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="product_detail_table table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Order No</th>
+                        <th>Payment Date</th>
+                        <th>Bank Name</th>
+                        <th>Neft</th>
+                        <th>Amount</th>
+                        <th>User Name</th>
+                    </tr>      
+                </thead>  
+                <tbody>
+                    {{#each payments as |payvalue paykey|}}
+                    <tr>
+                        <td>{{sum @index 1}}</td>
+                        <td>{{payvalue.orderid}}</td>
+                        <td>{{dateformat payvalue.paymentdate 'DD/MM/YYYY h:mm a'}}</td>
+                        <td>{{payvalue.bankname}}</td>
+                        <td>{{payvalue.neft}}</td>
+                        <td>{{payvalue.transferamount}}</td>
+                        {{#each ../users as |value key|}}
+                            {{#equal ../userid value._id}}
+                                <td>{{#if value.name}}{{value.name}}{{else}}<td>{{../userid}}</td>{{/if}}</td>
+                            {{/equal}}
+                        {{/each}}  
+                    </tr>
+                    {{/each}}    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Order No</th>
+                        <th>Payment Date</th>
+                        <th>Bank Name</th>
+                        <th>Neft</th>
+                        <th>Amount</th>
+                        <th>User Name</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

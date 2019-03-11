@@ -1,0 +1,58 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Products</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="product_detail_table table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Sku</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                    </tr>      
+                </thead>  
+                <tbody>
+                    {{#each products as |productvalue productvkey|}}
+                    <tr>
+                        <td>{{productvalue.productid.id}}</td>
+                        <td>{{productvalue.productid.producttitle}}
+                            <a href="/products/edit/{{productvalue._id}}">Edit</a> | 
+                            <a href="/products/delete/{{productvalue._id}}" class="delete-product" data-id="{{productvalue._id}}">Delete</a>
+                        </td>
+                         <td>
+                            {{#each productvalue.categoryid}}
+                                {{this.categorytitle}}
+                            {{/each}}
+                        </td>
+                        <td>{{productvalue.productid.sku}}</td>
+                        <td>{{productvalue.producttype}}</td>
+                        <td>{{productvalue.productid.creationdate}}</td>
+                    </tr>
+                    {{/each}}    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Sku</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

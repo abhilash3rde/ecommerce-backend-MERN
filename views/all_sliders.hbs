@@ -1,0 +1,111 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Slides</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-5">
+                <div class="alert alert-success slidersuccess" style="display:none;"></div>
+                <div class="alert alert-danger sliderdanger" style="display:none;"></div>
+                <form method="POST" action="/sliders/add" enctype="multipart/form-data" id="addsliderform" class="brandform">
+                    <div id="form-group">
+                        <label>Slide Name</label>
+                        <input class="form-control imgname" name="imagename" type="text" autocomplete="off">
+                        <span class="form_error">Please Enter Slide Name</span>
+                    </div>
+                    <div class="slider_image_div" style="display:none;"></div>
+                    <div id="form-group" class="sliderimagefield">
+                        <label>Add Slide Image:</label>
+                        <input name="sliderimage" type="file" id="sliderimage" class="topsliderimages">
+                        <span class="form_error">Please Choose Slider Image</span>
+                    </div>
+                    <div id="form-group">
+                        <label for="enableslide" class="labelenableslide">
+                            Enable Slide
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" name="sliderenable" class="sliderenable" id="enableslide" value="enable" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="form_error">Please Provide Slide Status</span>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary addpsliderimage" type="submit" value="Submit">
+                </form>
+                <form method="POST" action=""class="brandform" id="edit_slider_form" style="display:none;">
+                    <div id="form-group">
+                        <label>Slide Name</label>
+                        <input class="form-control editslideimgname" name="editslideimgname" type="text" autocomplete="off">
+                        <span class="form_error">Please Enter Slide Name</span>
+                    </div>
+                    <div id="form-group" class="slider_image_preview_section">
+                        <div class="slider_image">
+                            <label>Slider Image:</label>
+                            <img src="" class="edit_slider_img"/>
+                        </div>
+                        <div class="slider_image_upload">
+                            <input name="sliderimage" type="file" id="editsliderimage" class="edittopsliderimages">
+                            <input type="hidden" name="previousfilename" value="" class="edit_filename_slider"/>
+                        </div>
+                    </div>
+                    <div id="form-group">
+                        <label for="enableslideedit" class="labelenableslideedit">
+                            Enable Slide
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" name="editsliderenable" class="editsliderenable" id="editenableslide" value="enable" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="form_error">Please Provide Slide Status</span>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary editsliderimage" type="button" value="Submit">
+                </form> 
+            </div>
+            <div class="col-lg-7">
+                <table class="slider_details_table table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Slide Image</th>
+                            <th>Slide Name</th>
+                            <th>Slide Status</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>      
+                    </thead>  
+                    <tbody>
+                        {{#each sliders as |slidervalue sliderkey|}}
+                        <tr>
+                            <td>{{sum @index 1}}</td>
+                            <td><img src="{{slidervalue.filepath}}" alt="slider images"/></td>
+                            <td>{{slidervalue.slidename}}</td>
+                            <td>{{slidervalue.slidestatus}}</td>
+                            <td><a href="javascript:void(0);" class="edit_slide_btn" data-id="{{slidervalue._id}}">Edit</a></td>
+                            <td><a href="javascript:void(0);" class="delete-slide" data-id="{{slidervalue._id}}">Delete</a></td>
+                        </tr>
+                        {{/each}}    
+                    </tbody>
+                    <tfoot>
+                         <tr>
+                            <th>Sno.</th>
+                            <th>Slide Image</th>
+                            <th>Slide Name</th>
+                            <th>Slide Status</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </tfoot>
+                </table>        
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

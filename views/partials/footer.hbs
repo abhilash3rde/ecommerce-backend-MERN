@@ -1,0 +1,60 @@
+<footer>
+    <p>Copyright @{{getCurrentYear}}. All Right Reserved</p>
+</footer>
+<div class="loader" style="display:none;"></div>
+</div><!-- /#wrapper -->
+<!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/metisMenu.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+
+        <script>
+    $(document).ready(function(){
+
+  //hides dropdown content
+  $(".size_chart").hide();
+  
+  //unhides first option content
+  $("#option1").show();
+  
+  //listen to dropdown for change
+  $("#size_select").change(function(){
+    //rehide content on change
+    $('.size_chart').hide();
+    //unhides current item
+    $('#'+$(this).val()).show();
+  });
+  
+});
+</script>
+    </script>
+    <script src="js/sb-admin-2.js"></script>
+    <script src="js/jquery.repeater.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.timepicker.min.js"></script>
+    <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="js/dataTables.buttons.min.js" type="text/javascript"></script>
+    <script src="js/buttons.flash.min.js" type="text/javascript"></script>
+    <script src="js/jszip.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js" type="text/javascript"></script>
+    <script src="js/vfs_fonts.js" type="text/javascript"></script>
+    <script src="js/buttons.html5.min.js" type="text/javascript"></script>
+    <script src="js/buttons.print.min.js" type="text/javascript"></script>
+    <script src="js/jquery.form.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/moment-timezone-with-data.js"></script>
+    <script src="https://cdn.ckeditor.com/4.10.1/standard/ckeditor.js"></script>    
+    <script src="js/custom.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="js/select2.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery('.js-example-basic-multiple').select2();
+        });
+    </script>
+</body>
+</html>

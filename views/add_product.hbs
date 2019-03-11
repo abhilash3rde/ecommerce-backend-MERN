@@ -1,0 +1,444 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper" style="padding-left: 15px;padding-right: 15px">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Products</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-md-12">
+           <form method="POST" action="/products/add-product" enctype="multipart/form-data" class="product-add-form" id="">
+                <div class="col-md-8">
+                    <div class="alert alert-success productsuccess" style="display:none;"></div>
+                    <div class="alert alert-danger productdanger" style="display:none;"></div>
+                    <div class="title-descripion">
+                        <div id="form-group">
+                            <label>Title: <span>*</span></label>
+                            <input class="form-control" name="producttitle" type="text" id="producttitle" autocomplete="off">
+                            <span class="form_error">Please enter Product Name</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Barcode: <span>*</span></label>
+                            <input class="form-control" name="barcode" type="text" id="barcode" autocomplete="off">
+                            <span class="form_error">Please enter the barcode number</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Description:</label>
+                            <textarea class="form-control" name="productdescription" id="productbody" row="10" column="10"></textarea>
+                        </div>
+                    </div>
+                    <div id="woocommerce-product-data" class="postbox ">
+                        <h2 class="hndle ui-sortable-handle">
+                            <span>Product data<span class="type_box "> —
+                                    <label for="product-type">
+                                        <select id="product-type" name="producttype">
+                                            <optgroup label="Product Type">
+                                                <option value="simple">Simple product</option>
+                                                <option value="variable" selected="selected">Variable product</option>
+                                            </optgroup>
+                                        </select>
+                                    </label>
+                                </span>
+                            </span>
+                        </h2>
+                        <h2 class="hndle ui-sortable-handle">
+                            <span>Visibility<span class="type_box "> —
+                                    <label for="visibility-type">
+                                        <select id="visibility-type" name="hide">
+                                            <optgroup label="Visibility">
+                                                <option value="show">Show</option>
+                                                <option value="hide" selected="selected">Hide</option>
+                                            </optgroup>
+                                        </select>
+                                    </label>
+                                </span>
+                            </span>
+                        </h2>
+                        <h2 class="hndle ui-sortable-handle">
+                            <span>Type of product<span class="type_box "> —
+                                    <label for="featured-type">
+                                        <select id="featured-type" name="type">
+                                            <optgroup label="Type">
+                                                <option value="normal">Normal</option>
+                                                <option value="featured" selected="selected">Featured</option>
+                                            </optgroup>
+                                        </select>
+                                    </label>
+                                </span>
+                            </span>
+                        </h2>
+                        <div class="inside">
+                            <div class="panel-wrap product_data">
+                                <ul class="product_data_tabs wc-tabs">
+                                    <li class="general_options general_tab active">
+                                        <a href="javascript:void(0)" data-tab-id="general_product_data"><span>General</span></a>
+                                    </li>
+                                    <li class="inventory_options inventory_tab">
+				                        <a href="javascript:void(0)" data-tab-id="inventory_product_data"><span>Inventory</span></a>
+			                        </li>
+                                    <li class="shipping_options shipping_tab">
+                                        <a href="javascript:void(0)" data-tab-id="shipping_product_data"><span>Shipping</span></a>
+                                    </li>
+                                    {{!-- <li class="linked_product_options linked_product_tab">
+                                        <a href="javascript:void(0)" data-tab-id="linked_product_data"><span>Linked Products</span></a>
+                                    </li> --}}
+                                    <li class="attribute_options attribute_tab">
+				                        <a href="javascript:void(0)" data-tab-id="product_attributes"><span>Attributes</span></a>
+			                        </li>
+                                    <li class="variations_options variations_tab">
+                                        <a href="javascript:void(0)" data-tab-id="variable_product_options"><span>Variations</span></a>
+                                    </li>
+                                </ul>
+                                <div id="general_product_data" class="panel woocommerce_options_panel" style="display: block;">
+                                    <div class="options_group_pricing" style="display: none;">
+                                        <p class="form-field _regular_price_field ">
+                                            <label for="_regular_price">Regular price ($)</label>
+                                            <input type="text" class="short wc_input_price" style="" name="regular_price" id="_regular_price" value="" placeholder="">
+                                        </p>
+                                        <p class="form-field _sale_price_field ">
+                                            <label for="_sale_price">Sale price ($)</label>
+                                            <input type="text" class="short wc_input_price" style="" name="sale_price" id="_sale_price" value="" placeholder="">
+                                            <span class="description"></span>
+                                        </p>
+                                    </div>
+                                    <div class="options_group reviews">
+                                        <p class="form-field enable_review_field ">
+                                            <label for="enable_review">Enable reviews</label><input type="checkbox" class="checkbox" style="" name="enable_review" id="enable_review" value="open" checked="checked">
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="inventory_product_data" class="panel woocommerce_options_panel" style="display: none;">
+                                    <div class="options_group">
+                                        <p class="form-field _sku_field ">
+                                            <label for="_sku"><abbr title="Stock Keeping Unit">SKU</abbr></label><span
+                                                class="woocommerce-help-tip"></span><input type="text" class="short" style="" name="sku" id="_sku"
+                                                value="" placeholder=""> </p>
+                                        <p class="form-field _manage_stock_field show_if_simple show_if_variable" style="display: block;">
+                                            <label for="_manage_stock">Manage stock?</label><input type="checkbox" class="checkbox" style=""
+                                                name="manage_stock" id="_manage_stock" value="1"> <span class="description">Enable stock management
+                                                at product level</span></p>
+                                        <div class="stock_fields show_if_simple show_if_variable" style="display: block;">
+                                            <p class="form-field _stock_field ">
+                                                <label for="_stock">Stock quantity</label><span class="woocommerce-help-tip"></span><input type="number"
+                                                    class="short wc_input_stock" style="" name="stock" id="_stock" value="0" placeholder="" step="any">
+                                            </p><input type="hidden" name="original_stock" value="0">
+                                            {{!-- BACKORDERS --}}
+                                            <p class=" form-field _backorders_field">
+                                                <label for="_backorders">Allow backorders?</label>
+                                                <span class="woocommerce-help-tip"></span> <select style="" id="_backorders" name="_backorders"
+                                                    class="select short">
+                                                    <option value="no">Do not allow</option>
+                                                    <option value="notify">Allow, but notify customer</option>
+                                                    <option value="yes">Allow</option>
+                                                </select>
+                                            </p>
+                                            {{!-- LOW STOCK AMOUNT FIELD  --}}
+                                            <p class="form-field _low_stock_amount_field ">
+                                                <label for="_low_stock_amount">Low stock threshold</label><span
+                                                    class="woocommerce-help-tip"></span><input type="number" class="short" style=""
+                                                    name="_low_stock_amount" id="_low_stock_amount" value="" placeholder="2" step="any"> </p>
+                                        </div>
+                                        {{!-- STOCK STATUS FIELD  --}}
+                                        <p class="stock_status_field hide_if_variable hide_if_external hide_if_grouped form-field _stock_status_field"
+                                            style="display: none;">
+                                            <label for="_stock_status">Stock status</label>
+                                            <span class="woocommerce-help-tip"></span> <select style="" id="_stock_status" name="_stock_status"
+                                                class="select short">
+                                                <option value="instock" selected="selected">In stock</option>
+                                                <option value="outofstock">Out of stock</option>
+                                                <option value="onbackorder">On backorder</option>
+                                            </select>
+                                        </p>
+                                    </div>
+                                    {{!-- SOLD INDIVISUALLTY CHECKBOX --}}
+                                    <div class="options_group show_if_simple show_if_variable" style="display: block;">
+                                        <p class="form-field _sold_individually_field show_if_simple show_if_variable" style="display: block;">
+                                            <label for="_sold_individually">Sold individually</label><input type="checkbox" class="checkbox" style=""
+                                                name="_sold_individually" id="_sold_individually" value="yes"> <span class="description">Enable this to
+                                                only allow one of this item to be bought in a single order</span></p>
+                                    </div>
+                                </div>
+                                <div id="shipping_product_data" class="panel woocommerce_options_panel" style="display: none;">
+                                    <div class="options_group">
+                                        <p class="form-field _weight_field ">
+                                            <label for="_weight">Weight (kg)</label>
+                                            <span class="woocommerce-help-tip"></span>
+                                            <input type="text" class="short wc_input_decimal" style="" name="_weight" id="_weight" value="" placeholder="0">
+                                        </p>
+                                        <p class="form-field dimensions_field">
+                                            <label for="product_length">Dimensions (cm)</label>
+                                            <span class="wrap">
+                                                <input id="product_length" placeholder="Length" class="input-text wc_input_decimal" size="6" type="text" name="_length" value="">
+                                                <input placeholder="Width" class="input-text wc_input_decimal" size="6" type="text" name="_width" value="">
+                                                <input placeholder="Height" class="input-text wc_input_decimal last" size="6" type="text" name="_height" value="">
+                                            </span>
+                                            <span class="woocommerce-help-tip"></span>
+                                        </p>
+                                    </div>
+                                    <div class="options_group">
+                                        <p class="form-field shipping_class_field">
+                                            <label for="product_shipping_class">Shipping class</label>
+                                            <select name="product_shipping_class" id="product_shipping_class" class="select short">
+                                                <option value="-1" selected="selected">No shipping class</option>
+                                            </select>
+                                            <span class="woocommerce-help-tip"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                {{!-- <div id="linked_product_data" class="panel woocommerce_options_panel" style="display: none;">
+                                    <div class="options_group">
+                                        <p class="form-field">
+                                            <label for="upsell_ids">Upsells</label>
+                                            <select class="wc-product-search select2-accessible enhanced" multiple=""
+                                                style="width: 50%;" id="upsell_ids" name="upsell_ids[]"
+                                                data-placeholder="Search for a product…"
+                                                data-action="woocommerce_json_search_products_and_variations" data-exclude="591"
+                                                tabindex="-1" aria-="true">
+                                            </select>
+                                            <span class="select2 select2-container select2-container--default" dir="ltr"
+                                                style="width: 50%;">
+                                                <span class="selection">
+                                                    <span class="select2-selection select2-selection--multiple" aria-haspopup="true" aria-expanded="false" tabindex="-1">
+                                                        <ul class="select2-selection__rendered" aria-live="polite"
+                                                            aria-relevant="additions removals" aria-atomic="true">
+                                                            <li class="select2-search select2-search--inline">
+                                                                <input class="select2-search__field" type="text" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Search for a product…" style="width: 100px;">
+                                                            </li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                                <span class="dropdown-wrapper" aria-="true"></span>
+                                            </span>
+                                            <span class="woocommerce-help-tip"></span>
+                                        </p>
+
+                                        <p class="form-field hide_if_grouped hide_if_external">
+                                            <label for="crosssell_ids">Cross-sells</label>
+                                            <select class="wc-product-search select2--accessible enhanced" multiple=""
+                                                style="width: 50%;" id="crosssell_ids" name="crosssell_ids[]"
+                                                data-placeholder="Search for a product…"
+                                                data-action="woocommerce_json_search_products_and_variations" data-exclude="591"
+                                                tabindex="-1" aria-="true">
+                                            </select>
+                                            <span class="select2 select2-container select2-container--default" dir="ltr"b style="width: 50%;">
+                                                <span class="selection">
+                                                    <span class="select2-selection select2-selection--multiple" aria-haspopup="true" aria-expanded="false" tabindex="-1">
+                                                        <ul class="select2-selection__rendered" aria-live="polite" aria-relevant="additions removals" aria-atomic="true">
+                                                            <li class="select2-search select2-search--inline">
+                                                                <input class="select2-search__field" type="text" tabindex="0"
+                                                                autocomplete="off" autocorrect="off" autocapitalize="off"
+                                                                spellcheck="false" role="textbox" aria-autocomplete="list"
+                                                                placeholder="Search for a product…" style="width: 100px;">
+                                                            </li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                                <span class="dropdown-wrapper" aria-="true"></span>
+                                            </span>
+                                            <span class="woocommerce-help-tip"></span>
+                                        </p>
+                                    </div>
+                                </div> --}}
+                                <div id="product_attributes" class="panel woocommerce_options_panel" style="display: none;">
+                                    <div class="toolbar toolbar-top">
+                                        <span class="expand-close">
+                                            <a href="#" class="expand_all">Expand</a> / <a href="#" class="close_all">Close</a>
+                                        </span>
+                                        <select name="attribute_taxonomy" class="attribute_taxonomy">
+                                            {{#each attributes as |value key|}}
+                                                <option value="{{this.slug}}" data-rel="{{key}}">{{this.name}}</option>
+                                            {{/each}}
+                                        </select>
+                                        <button type="button" class="button add_attribute">Add</button>
+                                    </div>
+                                    <div class="product_attributes wc-metaboxes ui-sortable">
+                                        
+                                    </div>
+                                    <div class="toolbar attribute_add_btn" style="display: none;">
+                                        <button type="button" class="button save_attributes button-primary">Save attributes</button>
+                                    </div>
+                                </div>
+                                <div id="variable_product_options" class="panel woocommerce_options_panel" style="display: none;">
+                                    <div id="variable_product_options_inner">
+                                        <div class="initial_variable_message">
+                                            Before you can add a variation you need to add some variation attributes on the Attributes tab.    
+                                        </div>
+                                        <div class="toolbar toolbar-variations-defaults" style="display: none;">
+                                            <div class="variations-defaults">
+                                                <strong>Default Form Values: </strong>
+                                                <div class="default-value-container">
+
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="toolbar toolbar-top variable-add-toolbar" style="display:none;">
+                                            <a class="button bulk_edit do_variation_action" data-variation-rel="1">Add Variation</a>
+                                            {{!-- <div class="variations-pagenav" style="display: none;">
+                                                <span class="displaying-num">1 variation</span>
+                                                <span class="expand-close">
+                                                    (<a href="#" class="expand_all">Expand</a> / <a href="#" class="close_all">Close</a>)
+                                                </span>
+                                                <span class="pagination-links" style="display: none;">
+                                                    <a class="first-page disabled" title="Go to the first page" href="#">«</a>
+                                                    <a class="prev-page disabled" title="Go to the previous page" href="#">‹</a>
+                                                    <span class="paging-select">
+                                                        <label for="current-page-selector-1" class="screen-reader-text">Select Page</label>
+                                                        <select class="page-selector" id="current-page-selector-1" title="Current page"></select>
+                                                        of <span class="total-pages">0</span>
+                                                    </span>
+                                                    <a class="next-page" title="Go to the next page" href="#">›</a>
+                                                    <a class="last-page" title="Go to the last page" href="#">»</a>
+                                                </span>
+                                            </div> --}}
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="woocommerce_variations" data-attributes="">
+                                            
+                                        </div>
+                                
+                                        <div class="toolbar attribute-save-container" style="display: none;">
+                                            <button type="button" class="button-primary save-variation-changes">Save changes</button>
+                                            <button type="button" class="button cancel-variation-changes">Cancel</button>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="attribute-content-section">
+                        <div id="form-group">
+                            <label>Attribute One Title:</label>
+                            <input type="text" class="attribute-one-title form-control" name="page_attribute[0][title]" />
+                        </div>
+                        <div id="form-group">
+                            <label>Attribute One Description:</label>
+                            <textarea class="form-control attribute-one-description" name="page_attribute[0][description]" row="10" column="10"></textarea>
+                        </div>
+                        <div id="form-group">
+                            <label>Attribute Two Title:</label>
+                            <input type="text" class="attribute-two-title form-control" name="page_attribute[1][title]" />
+                        </div>
+                        <div id="form-group">
+                            <label>Attribute Two Description:</label>
+                            <textarea class="form-control attribute-two-description" name="page_attribute[1][description]" row="10" column="10"></textarea>
+                        </div>
+                        <div id="form-group">
+                            <label>Attribute Three Title:</label>
+                            <input type="text" class="attribute-three-title form-control" name="page_attribute[2][title]" />
+                        </div>
+                        <div id="form-group">
+                            <label>Attribute Three Description:</label>
+                            <textarea class="form-control attribute-three-description" name="page_attribute[2][description]" row="10" column="10"></textarea>
+                        </div>
+                        <div id="form-group">
+                            <label>Attribute Four Title:</label>
+                            <input type="text" class="attribute-four-title form-control" name="page_attribute[3][title]" />
+                        </div>
+                        <div id="form-group">
+                            <label>Attribute Four Description:</label>
+                            <textarea class="form-control attribute-four-description" name="page_attribute[3][description]" row="10" column="10"></textarea>
+                        </div>
+                        <div id="form-group">
+                            <label>key ingredients:</label>
+                            <textarea class="form-control" name="keyingredients" id="keyingredients" row="10" column="10"></textarea>
+                        </div>
+                        <div id="form-group" class="faq-section">
+                            <label>FAQ:</label>
+                            <div class="section-inside">
+                                <div id="clonedfaq" class="clonedfaq">
+                                    <div class="faq-question-rept">
+                                        <div class="faq-label">
+                                            <label>
+                                                FAQ Title 1
+                                            </label>
+                                            <input type="text" name="faq[0][title]" class="faq-title-field" data-repid="0">
+                                        </div>
+                                        <div class="faq-description">
+                                            <label>
+                                                FAQ Descripiton 1
+                                            </label>
+                                            <textarea class="form-control" name="faq[0][description]" class="faq-description-field" row="5" column="5"></textarea>  
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <button type="button" class="clone-faq" data-repid="0">Clone</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="publish-section">
+                        <div class="section-heading">
+                            <h2>Publish</h2>
+                        </div>
+                        <div class="section-inside">
+                            <input type="submit" value="Submit" class="product-submit">
+                        </div>
+                    </div>
+                    <div class="category-section">
+                        <div class="section-heading">
+                            <h2>Product Category</h2>
+                        </div>
+                        <div class="section-inside">
+                            <select name="categoryid" class="prod-cat" multiple>
+                                <option value="">Select Category</option>
+                                {{#each categories}}
+                                    <option value="{{this._id}}">{{this.categorytitle}}</option>
+                                {{/each}}
+                            </select>   
+                        </div>
+                    </div>
+                    <div class="country-section">
+                        <div class="secttion-heading">
+                            <h2>Blocked Countries</h2>
+                        </div>
+                        <div class="section-inside">
+                            <div id="page-form-group">
+                                <select name="blockedcountries" class="edit-blokced-country" multiple>
+                                    <option value="">Please Select</option>
+                                    {{#each countries as |countriesValue countrieskey|}}
+                                        <option value="{{countriesValue}}">{{countriesValue}}</option> 
+                                    {{/each}}
+                                </select>  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-image-section">
+                        <div class="section-heading">
+                            <h2>Product Image</h2>
+                        </div>
+                        <div class="section-inside">
+                            <input type="file" name="feature_image" class="prod-feature-img">
+                        </div>
+                    </div>
+                    <div class="gallery-image-section">
+                        <div class="section-heading">
+                            <h2>Product Gallery</h2>
+                        </div>
+                        <div class="section-inside">
+                            <div id="clonedInput" class="clonedInput">
+                                <div class="prod-gallery-rept">
+                                    <input type="file" name="product_gallery_img[0]" class="product-gallery-img" data-repid="0">
+                                </div>
+                                <div class="actions">
+                                    <button type="button" class="clone" data-repid="0">Clone</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

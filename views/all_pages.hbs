@@ -1,0 +1,45 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Pages</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="product_detail_table table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Sno.</th>
+                        <th>Name</th>
+                        <th>Creation Date</th>
+                        <th>Delete</th>
+                    </tr>      
+                </thead>  
+                <tbody>
+                    {{#each pages as |pagevalue pagekey|}}
+                    <tr>
+                        <td>1</td>
+                        <td>{{pagevalue.title}}</td>
+                        <td><a href="/pages/edit/{{pagevalue._id}}" class="" data-id="{{pagevalue._id}}">Edit</a></td>
+                        <td><a href="javascript:void(0);" class="delete-page" data-id="{{pagevalue._id}}">Delete</a></td>
+                    </tr>
+                    {{/each}}    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Sno.</th>
+                        <th>Name</th>
+                        <th>Creation Date</th>
+                        <th>Delete</th>
+                    </tr>
+                </tfoot>
+            </table>         
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

@@ -1,0 +1,155 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Categories</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-5">
+                <div class="alert alert-success categorysuccess" style="display:none;"></div>
+                <div class="alert alert-danger categorydanger" style="display:none;"></div>
+                <form method="POST" action="/categories/add" enctype="multipart/form-data" id="addcategoryform" class="categoryform">
+                    <div id="category-group">
+                        <label>Name:</label>
+                        <input class="form-control categorytitle" name="categorytitle" type="text" autocomplete="off">
+                        <span class="form_error">Please Enter Category Name</span>
+                    </div>
+                    <div id="category-group">
+                        <label>Description:</label>
+                        <textarea class="form-control categorydescripiton" name="categorydescription" rows="10" column="10"></textarea>
+                        <span class="form_error">Please Enter Category Description</span>
+                    </div>
+                    <div id="category-group">
+                        <label>Parent Category:</label>
+                        <select name="parentid" class="parentcategory">
+                            <option value="">Please Select</option>
+                            {{#each categories}}
+                                <option value="{{this._id}}">{{this.categorytitle}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="category_image_div" style="display:none;"></div>
+                    <div id="category-group" class="categoryimagefield">
+                        <label>Category Image:</label>
+                        <input class="" name="categoryimage" type="file">
+                    </div>
+                    <div id="category-group">
+                        <label>Blocked Countries:</label>
+                        <select name="country" id="" class="blokced-country" multiple>
+                            <option value="">Please Select</option>
+                            {{#each countries as |countriesValue countrieskey|}}
+                                <option value="{{countriesValue}}">{{countriesValue}}</option> 
+                            {{/each}}
+                        </select>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+                <form method="POST" action="" enctype="multipart/form-data" class="categoryform" id="edit_category_form" style="display:none;">
+                    <div id="category-group">
+                        <label>Category Name:</label>
+                        <input class="form-control editcategoryname" name="categorytitle" type="text" value="" autocomplete="off">
+                        <span class="form_error">Please Enter Category Name</span>
+                    </div>
+                    <div id="category-group">
+                        <label>Category Description:</label>
+                        <textarea class="form-control editcategorydescription" name="categorydescription" rows="10" column="10"></textarea>
+                        <span class="form_error">Please Enter Category Description</span>
+                    </div>
+                    <div id="category-group">
+                        <label>Parent Category:</label>
+                        <select name="parentid" class="editparentcategory">
+                            <option value="">Please Select</option>
+                            {{#each categories}}
+                                <option value="{{this._id}}">{{this.categorytitle}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="product_image_preview_section">
+                        <div class="col-md-2 product_image">
+                            <label>Category Image:</label>
+                            <img src="" class="edit_category_img"/>
+                        </div>
+                    </div>
+                    <div id="category-group" class="">
+                        <input class="form-control" name="categoryimage" type="file">
+                        <input type="hidden" name="previousfilename" value="" class="edit_filename_category"/>
+                    </div>
+                    <div id="category-group">
+                        <label>Blocked Countries:</label>
+                        <select name="country" id="" class="edit-blokced-country" multiple>
+                            <option value="">Please Select</option>
+                            {{#each countries as |countriesValue countrieskey|}}
+                                <option value="{{countriesValue}}">{{countriesValue}}</option> 
+                            {{/each}}
+                        </select>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form> 
+            </div>
+            <div class="col-lg-7">
+                <table class="product_detail_table table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            {{!-- <th>Slug</th> --}}
+                        </tr>      
+                    </thead>  
+                    <tbody>
+                        {{#each categories}}
+                        <tr>
+                            <td>{{this.categoryid}}</td>
+                            <td><img src="{{this.filepath}}" height="50" width="50"/></td>
+                            <td>
+                                <p>{{this.categorytitle}}</p>
+                                <a href="javascript:void(0);" class="edit_category_btn" data-id="{{this._id}}">Edit</a> | 
+                                <a href="javascript:void(0);" class="delete-category" data-id="{{this._id}}">Delete</a>
+                            </td>
+                            <td>{{this.catdescription}}</td>
+                            {{!-- <td>{{this.categoryslug}}</td> --}}
+                        </tr>
+                        {{/each}}    
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            {{!-- <th>Slug</th> --}}
+                        </tr>
+                    </tfoot>
+                </table>        
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- <div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Categories</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="list-group">
+                {{#each categories}}
+                <li class="list-group-item"><a href="/products/{{this._id}}">{{this.categorytitle}}</a></li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div> --}}
+<!-- /#page-wrapper -->
+{{> footer}}

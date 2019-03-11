@@ -1,0 +1,60 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Subscribe Products</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="product_detail_table table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Product Name</th>
+                        <th>Delivery Date</th>
+                        <th>Sku</th>
+                        <th>Subscribed By</th>
+                        <th>Date</th>
+                    </tr>      
+                </thead>
+                
+                <tbody>
+                    {{#each products as |productvalue productvkey|}}
+                    <tr>
+                        <td>{{productvalue.product._id}}</td>
+                        <td>{{productvalue.productid.producttitle}}
+                            <a href="/subscribed/edit/{{productvalue._id}}">Edit</a> | 
+                            <a href="/subscribed/delete/{{productvalue._id}}" class="delete-product" data-id="{{productvalue._id}}">Delete</a>
+                        </td>
+                         <td>
+                            {{!-- {{#each productvalue.deliverydate}}
+                                {{this.categorytitle}}
+                            {{/each}} --}}
+                            {{productvalue.deliverydate}}
+                        </td>
+                        <td>{{productvalue.productid.sku}}</td>
+                        <td>{{productvalue.userid.username}}</td>
+                        <td>{{productvalue.productid.creationdate}}</td>
+                    </tr>
+                    {{/each}}    
+                </tbody>
+                {{!-- <tfoot>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Sku</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                    </tr>
+                </tfoot> --}}
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

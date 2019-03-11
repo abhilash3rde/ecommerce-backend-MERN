@@ -1,0 +1,56 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Inquiries</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="product_detail_table table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Inquiry No</th>
+                        <th>Inquiry Date</th>
+                        <th>Description</th>
+                        <th>Remark</th>
+                        <th>User Name</th>
+                    </tr>      
+                </thead>  
+                <tbody>
+                    {{#each inquiries as |inqvalue inqkey|}}     
+                    <tr>
+                        <td>{{sum @index 1}}</td>
+                        <td>{{inqvalue.inquiryno}}</td>
+                        <td>{{dateformat inqvalue.inquirydate 'DD/MM/YYYY h:mm a'}}</td>
+                        <td>{{inqvalue.inqdescription}}</td>
+                        <td>{{inqvalue.remark}}</td>
+                        {{#each ../users as |value key|}}
+                            {{#equal ../userid value._id}}
+                                <td>{{value.name}}</td>
+                            {{/equal}}
+                        {{/each}}
+                        
+                    </tr>
+                    {{/each}}    
+                </tbody>
+                <tfoot>
+                    <tr>
+                         <th>S.no</th>
+                        <th>Inquiry No</th>
+                        <th>Inquiry Date</th>
+                        <th>Description</th>
+                        <th>Remark</th>
+                        <th>User Name</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

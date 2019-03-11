@@ -1,0 +1,42 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Rate Updation</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="col-lg-6 col-md-12 col-lg-offset-3">
+        
+    <div class="row">
+        <div class="col-lg-12">
+                <div class="rate_date_heading">{{rateupdate.ratechangedate}}</div>
+                <div class="row">
+                </div>
+                {{#each rateupdate.productbrandprices as |idsvalue idskey|}}
+                    {{#each this as |childValue childKey|}}
+                        <div class="col-lg-12 product_main_row">
+                            <div class="product_title">
+                                <div class="row">
+                                    <div class="col-sm-6"><h3>{{childValue.productname}}</h3></div>
+                                    <div class="col-sm-6"><p>{{childValue.regularprice}}</p></div>
+                                </div>
+                            </div>
+                            {{#each this.brandprice as |brandpriceValue brandpriceKey|}}
+                                <div class="brands_row row">
+                                    <div class="col-sm-6"><h4>{{brandpriceKey}}</h4></div>
+                                    <div class="col-sm-3"><p>{{brandpriceValue}}</p></div>
+                                    <div class="col-sm-3"><p>{{subtract brandpriceValue childValue.regularprice}}</p></div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    {{/each}}
+                {{/each}}
+        </div>
+    </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}

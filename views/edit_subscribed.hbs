@@ -1,0 +1,91 @@
+{{> header}}
+{{> nav}}
+<div id="page-wrapper" style="padding-left: 15px;padding-right: 15px">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Edit Subscribed Product</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-12">
+           <form method="POST" action="/subscribed/edit/{{subscribed.id}}"  class="subscribed-edit-form" >
+                <div class="col-lg-12">
+                    <div class="alert alert-success productsuccess" style="display:none;"></div>
+                    <div class="alert alert-danger productdanger" style="display:none;"></div>
+                    <div class="title-descripion">
+                         <div id="form-group">
+                            <label>Edit Serial number: <span>*</span></label>
+                            <input class="form-control" name="serial" type="text" id="serial" autocomplete="off" value="">
+                            <span class="form_error">Please enter serial number</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Frequency: <span>*</span></label>
+                            <input class="form-control" name="frequency" type="text" id="frequency" autocomplete="off" value="{{subscribed.frequency}}">
+                            <span class="form_error">Please enter Frequency</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Subscribed By Userid: <span>*</span></label>
+                            <input class="form-control" name="userid" type="text" id="userid" autocomplete="off" value="{{subscribed.userid._id}}">
+                            <span class="form_error">Please enter User id</span>
+                        </div>
+                        {{!-- /////////////////////////////////////////////// --}}
+                        <div id="form-group">
+                            <label>Duration: <span>*</span></label>
+                            <input class="form-control" name="duration" type="text" id="duration" autocomplete="off" value="{{subscribed.duration}}">
+                            <span class="form_error">Please enter Duration</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Quantity: <span>*</span></label>
+                            <input class="form-control" name="quantity" type="text" id="quantity" autocomplete="off" value="{{subscribed.quantity}}">
+                            <span class="form_error">Please enter quantity</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Delivery Date: <span>*</span></label>
+                            <input class="form-control" name="deliverydate" type="text" id="deliverydate" autocomplete="off" value="{{subscribed.deliverydate}}">
+                            <span class="form_error">Please enter Delivery date</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Skip Delivery Option: <span>*</span></label>
+                            <input class="form-control" name="skipdelivery" type="text" id="skipdelivery" autocomplete="off" value="{{subscribed.skipdelivery}}">
+                            <span class="form_error">Please enter skip delivery option</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Subscribed On: <span>*</span></label>
+                            <input class="form-control" name="subscribedon" type="text" id="subscribedon" autocomplete="off" value="{{subscribed.subscribedon}}">
+                            <span class="form_error">please enter Subscribed on date</span>
+                        </div>
+                        <div id="form-group">
+                            <label>product id: <span>*</span></label>
+                            <input class="form-control" name="productid" type="text" id="productid" autocomplete="off" value="{{subscribed.productid}}">
+                            <span class="form_error">Please enter product id</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Product meta id: <span>*</span></label>
+                            <input class="form-control" name="productmeta" type="text" id="productmeta" autocomplete="off" value="{{subscribed.productmeta}}">
+                            <span class="form_error">Please enter product meta id</span>
+                        </div>
+                        <div id="form-group">
+                            <label>Order id: <span>*</span></label>
+                            <input class="form-control" name="orderid" type="text" id="orderid" autocomplete="off" value="{{subscribed.orderid}}">
+                            <span class="form_error">Please enter Order id</span>
+                        </div>
+                        </form>
+                         <div class="row">
+                        <div class="col-md-12"><input name="submit" type="submit" value="Submit"></div>
+                        </div>
+                        {{!-- <div class="publish-section">
+                        <div class="section-heading">
+                            <h2>Save changes</h2>
+                        </div>
+                        
+                            <input type="submit" name="submit" value="Submit" class="subscribed-edit-form"> --}}
+                        {{!-- ///////////////////////////////////////// --}}
+            
+        </div>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+{{> footer}}
